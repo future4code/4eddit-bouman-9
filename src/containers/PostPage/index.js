@@ -12,14 +12,14 @@ const LoginWrapper = styled.form`
 `;
 
 
-class LoginPage extends Component {
+class PostPage extends Component {
   render() {
     return (
       <LoginWrapper>
-        loginpage
+        postpage
       </LoginWrapper>
     );
   }
 }
 
-export default LoginPage;
+export default PostPage;
