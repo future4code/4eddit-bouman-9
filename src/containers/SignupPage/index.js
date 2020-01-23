@@ -4,27 +4,42 @@ import { push } from "connected-react-router";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
-import {postLogin} from "./../../actions/loginAction"
+import { Grid } from 'material-ui'
+import {postSignup} from "./../../actions/loginAction"
 
 
 
-const loginForm = [
+const signupForm = [
   
   {
-    name: "email",
-    type: "email",
-    label: "E-mail",
+    name: "userName",
+    type: "text",
+    label: "User Name",
     required: true,
     /* pattern:"[A-Za-z]" */
     select:false
     
   },
   {
+    name: "email",
+    type: "email",
+    label: "Email",
+    required:true,
+    select:false   
+  },
+  {
     name: "password",
     type: "password",
     label: "Password",
     required:true,
-    select:false   
+    select:false  
+  },
+  {
+    name: "confirmPassword",
+    type: "password",
+    label: "Confirm Password",
+    required:true,
+    select:false  
   }
 ];
 
@@ -39,14 +54,14 @@ const LoginWrapper = styled.form`
 `;
 
 
-class LoginPage extends Component {
+class SignupPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       form:{},
     };
   }
-
+21
   handleFieldChange = event => {
     const {name,value} = event.target
     this.setState({
@@ -57,7 +72,13 @@ class LoginPage extends Component {
   handleOnSubmit = event =>{
     event.preventDefault();
     console.log(this.state.form);
-    this.props.loginDispatch(this.state.form)
+    const {password, confirmPassword} = this.state.form;
+    if (password !== confirmPassword) {
+        alert("Passwords don't match");
+    } else {
+        console.log("pass ok!");
+        this.props.signupDispatch(this.state.form)
+    }
   };
 
  
@@ -69,7 +90,7 @@ class LoginPage extends Component {
       
       <LoginWrapper>
       <form onSubmit={this.handleOnSubmit}>
-        {loginForm.map(input => (
+        {signupForm.map(input => (
           <div key={input.name}>
                 <TextField
                     style={{width:"200px", margin:"15px 0 0 5px"}}
@@ -86,7 +107,7 @@ class LoginPage extends Component {
           </div>
         )
         )}
-        <Button type="submit" style={{marginTop:"20px"}} >Login</Button>      
+        <Button type="submit" style={{marginTop:"20px"}} >Create</Button>      
       </form>
       </LoginWrapper>
     );
@@ -96,11 +117,11 @@ class LoginPage extends Component {
 
 function mapToDispatch(dispatch) {
     return{
-        loginDispatch: (loginData) => dispatch(postLogin(loginData))
+        signupDispatch: (signupData) => dispatch(postSignup(signupData))
     }
   }
 
   export default connect(
     null,
-    mapToDispatch)(LoginPage);
+    mapToDispatch)(SignupPage);
   
