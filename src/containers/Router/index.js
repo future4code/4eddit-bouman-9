@@ -11,7 +11,6 @@ import PostPage from "../PostPage";
 
 export const routes = {
   root: "/",
-  login: "/login",
   signup: "/signup",
   feed: "/feed",
   postId: "/postId/"/* &{postId} */  //como vamos mostrar cada post?
@@ -21,10 +20,11 @@ function router(props) {
   return (
     <ConnectedRouter history={props.history}>
       <Switch>
-        <Route exact path={routes.feed} component={FeedPage} />
-        <Route exact path={routes.login} component={LoginPage} />
+        <Route exact path={routes.root} component={LoginPage} />
         <Route exact path={routes.signup} component={SignupPage} />
-        <Route exact path={routes.root} component={PostPage} />
+        <Route exact path={routes.feed} component={FeedPage} />
+        <Route exact path={routes.postId} component={FeedPage} />
+
       </Switch>
     </ConnectedRouter>
   );

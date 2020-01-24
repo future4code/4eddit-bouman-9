@@ -29,11 +29,11 @@ export const postSignup = (signup) => async (dispatch) => {
     }
     
   )
-window.localStorage.setItem("token",response.data.token) //temos mesmo que guardar o token nessa hora?
-dispatch(push(routes.login))
+    window.localStorage.setItem("token",response.data.token)
+    dispatch(push(routes.feed))
 }
  catch (e){
-     window.alert(e.response.data.message)
+    window.alert(e.response.data.message)
  }
 }
 
