@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {getPostDetail} from './../../actions/posts'
@@ -19,36 +18,31 @@ const StyledCardActions = styled(CardActions)`
   justify-content: space-between;
 `;
 
-class PostCard extends PureComponent {
+class CommentCard extends PureComponent {
 
 
 
   render(){
     return (
       <StyledCard>
-        <CardActionArea onClick={() => {this.props.goToPost(this.props.postData.id)}}>
+        <CardActionArea>
           <CardContent>
+            
             <Typography gutterBottom variant="h5" component="h2">
-              {this.props.postData.title}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="h2">
-              {this.props.postData.username}
+              {this.props.commentData.username}
             </Typography>
-            <Typography gutterBottom variant="h5" component="h2">
-              {this.props.postData.id}
-            </Typography>
+            
             <Typography variant="body2" color="textSecondary" component="p">
-            {this.props.postData.text}
+            {this.props.commentData.text}
             </Typography>
           </CardContent>
         </CardActionArea>
+
         <StyledCardActions>
           <Button size="small" color="primary">
-            {this.props.postData.votesCount}
+            {this.props.commentData.votesCount}
           </Button>
-          <Button size="small" color="primary">
-            {this.props.postData.commentsNumber}
-          </Button>
+          
         </StyledCardActions>
       </StyledCard>
       )
@@ -62,4 +56,4 @@ function mapDispatchToProps(dispatch){
 } 
 
 export default connect(null,
-  mapDispatchToProps)(PostCard);
+  mapDispatchToProps)(CommentCard);

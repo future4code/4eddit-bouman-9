@@ -5,7 +5,7 @@ import SignupPage from "../SignupPage";
 import FeedPage from "../FeedPage";
 import LoginPage from "../LoginPage";
 import PostPage from "../PostPage";
-
+import { connect } from "react-redux";
 
 
 
@@ -13,7 +13,7 @@ export const routes = {
   root: "/",
   signup: "/signup",
   feed: "/feed",
-  postId: "/postId/"/* &{postId} */  //como vamos mostrar cada post?
+  postId: "/postId/" //como vamos mostrar cada post?
 };
 
 function router(props) {
@@ -23,11 +23,20 @@ function router(props) {
         <Route exact path={routes.root} component={LoginPage} />
         <Route exact path={routes.signup} component={SignupPage} />
         <Route exact path={routes.feed} component={FeedPage} />
-        <Route exact path={routes.postId} component={FeedPage} />
-
+        <Route exact path={routes.postId} component={PostPage} />
       </Switch>
     </ConnectedRouter>
   );
 }
 
-export default router;
+function mapStateToProps(state) {
+  return {
+    postId: state.posts.postDetailArr.id
+  }
+}
+
+
+
+export default connect(
+  mapStateToProps
+  )(router);
