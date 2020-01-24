@@ -49,6 +49,7 @@ class FeedPage extends Component {
 
   handleFieldChange = e => {
     const { name, value } = e.target;
+      console.log(name, value)
     this.setState({ [name]: value })
   };
 
@@ -65,6 +66,7 @@ class FeedPage extends Component {
   };
 
   render() {
+    console.log(this.props.listOfPosts.length)
     return (
       <FeedWrapper>
           <CreatePostContainer onSubmit={this.handleOnSubmit}>
@@ -74,8 +76,8 @@ class FeedPage extends Component {
                  placeholder="Post title"
                  variant="standard"
                  fullWidth
-                 onChange={this.handleFieldChange}
                  value={this.state.title}
+                 onChange={this.handleFieldChange}
               />
               <TextField
                 name="postText"
@@ -92,8 +94,8 @@ class FeedPage extends Component {
             </div>
               <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
           </CreatePostContainer>
-          <PostContainer>
-            {this.props.listOfPosts.map( post => (
+           <PostContainer>
+           {this.props.listOfPosts.map( post => (
                <PostCard key={post.id} postData={post} />
             ))}
           </PostContainer>
