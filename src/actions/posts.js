@@ -45,7 +45,6 @@ export const createNewPost = (bodyContent) => async (dispatch) => {
   } catch {
     window.alert("Erro ao enviar o post.")
   }
-
 }
 
 export const getPostDetail = (idPost) => async (dispatch) => {
@@ -65,5 +64,22 @@ export const getPostDetail = (idPost) => async (dispatch) => {
     window.alert(e.response.data.message)
     dispatch(push(routes.root))
   }
+}
 
+export const postVote = (idPost, directionOfVote) => async (dispatch) => {
+  const token = window.localStorage.getItem('token')
+  const requestHeader = {
+    headers: {
+      auth: token,
+    }
+  }
+  const requestBody = {
+    direction: directionOfVote
+  }
+  try {
+    await axios.put(`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${idPost}/vote`, requestBody, requestHeader)
+    dispatch(getAllPosts())
+  } catch {
+    window.alert("Não foi possível registrar seu voto.")
+  }
 }
