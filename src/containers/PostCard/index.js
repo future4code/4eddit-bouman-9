@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {getPostDetail} from './../../actions/posts'
 import { connect } from "react-redux";
+import VoteComponent from '../VoteComponent';
 
 const StyledCard = styled(Card)`
   margin-bottom: 15px;
@@ -38,9 +39,14 @@ class PostCard extends PureComponent {
           </CardContent>
         </CardActionArea>
         <StyledCardActions>
-          <Button size="small" color="primary">
+          <VoteComponent
+            votes={this.props.postData.votesCount}
+            voteDirection={this.props.postData.userVoteDirection}
+            id={this.props.postData.id}
+          />
+          {/* <Button size="small" color="primary">
             {this.props.postData.votesCount}
-          </Button>
+          </Button> */}
           <Button size="small" color="primary">
             {this.props.postData.commentsNumber}
           </Button>
