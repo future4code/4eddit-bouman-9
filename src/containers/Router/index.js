@@ -29,14 +29,14 @@ function router(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    postId: state.posts.postDetailArr.id
-  }
-}
+  // function mapStateToProps(state) {
+  //   return {
+  //     postId: state.posts.postDetailArr.id
+  //   }
+  // }
 
+  export default router;
 
-
-export default connect(
-  mapStateToProps
-  )(router);
+// export default connect(
+//   mapStateToProps
+//   )(router);
