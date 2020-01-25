@@ -21,8 +21,6 @@ const StyledCardActions = styled(CardActions)`
 
 class PostCard extends PureComponent {
 
-
-
   render(){
     return (
       <StyledCard>
@@ -30,15 +28,12 @@ class PostCard extends PureComponent {
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {this.props.postData.title}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="h2">
-              {this.props.postData.username}
             </Typography>
             <Typography gutterBottom variant="h5" component="h2">
-              {this.props.postData.id}
+              {this.props.postData.username}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-            {this.props.postData.text}
+              {this.props.postData.text}
             </Typography>
           </CardContent>
         </CardActionArea>

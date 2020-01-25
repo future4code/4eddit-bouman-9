@@ -1,6 +1,6 @@
 const initialState = {
   postArr: [],
-  postDetailArr: {}
+  postDetailArr: null,
 }
 
 export const posts = ( state = initialState, action) => {

@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import CommentCard from "./../CommentCard"
 
 const PostWrapper = styled.form`
-   width: 100%;
+  width: 100%;
   height: 70vh;
   gap: 30px;
   place-content: top;
@@ -33,7 +33,6 @@ const PostContainer = styled.div`
 `;
 
 
-
 class PostPage extends Component {
   constructor(props){
     super(props)
@@ -42,11 +41,9 @@ class PostPage extends Component {
     }
   }
 
-
   componentDidMount() {
-    console.log(this.props.postDetail.comment)
+    console.log(this.props.postDetail)
   }
-
 
   handleFieldChange = e => {
     const { name, value } = e.target;
@@ -63,21 +60,21 @@ class PostPage extends Component {
       this.setState({ postText: '', title: '' })
     }
   };
+
   render() {
     let pageToRender 
     if (this.props.postDetail) {
-        pageToRender =  
-        <PostWrapper>
-        <PostContainer>
-            <PostCard  postData={this.props.postDetail} />
-        </PostContainer>
-        <PostContainer>
-            <CreatePostContainer onSubmit={this.handleOnSubmit}>
+        pageToRender = (
+          <PostWrapper>
+            <PostContainer>
+                <PostCard  postData={this.props.postDetail} />
+            </PostContainer>
+            <PostContainer>
+              <CreatePostContainer onSubmit={this.handleOnSubmit}>
                 <TextField
                   name="commentText"
                   placeholder="Create Comment"
                   multiline
-                
                   rows="5"
                   variant="standard"
                   fullWidth
@@ -85,47 +82,24 @@ class PostPage extends Component {
                   value={this.state.commentText}
                 />
                 <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
-            </CreatePostContainer>   
-        </PostContainer>
-        <PostContainer>
-            {
-            this.props.postDetail.comments.map( comment => (
-              <CommentCard key={comment.id} commentData={comment} />
-            )
-            )} 
-        </PostContainer>
-       
-  
-    </PostWrapper>
+              </CreatePostContainer>   
+            </PostContainer>
+            <PostContainer>
+                {this.props.postDetail.comments && this.props.postDetail.comments.map( comment => (
+                  <CommentCard key={comment.id} commentData={comment} />
+                ))} 
+            </PostContainer> 
+          </PostWrapper>
+        )
     } else {
-      pageToRender =
-      <PostWrapper>
-        <PostContainer>
-            <PostCard  postData={this.props.postDetail} />
-        </PostContainer>
-        <PostContainer>
-            <CreatePostContainer onSubmit={this.handleOnSubmit}>
-                <TextField
-                  name="commentText"
-                  placeholder="Create Comment"
-                  multiline
-                
-                  rows="5"
-                  variant="standard"
-                  fullWidth
-                  onChange={this.handleFieldChange}
-                  value={this.state.commentText}
-                />
-                <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
-            </CreatePostContainer>   
-        </PostContainer>
-        <PostContainer>
-           
-        </PostContainer>
+      pageToRender = (
+        <PostWrapper>
+          oi
         </PostWrapper>
+      )
     }
-    return (pageToRender
-
+    return(
+      pageToRender
     );
   }
 }
@@ -135,5 +109,6 @@ function mapStateToProps(state) {
     postDetail: state.posts.postDetailArr
   }
 }
+
 export default connect(
   mapStateToProps)(PostPage);
