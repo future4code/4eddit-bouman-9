@@ -58,13 +58,16 @@ export const getPostDetail = (idPost) => async (dispatch) => {
   requestHeader)
 
   dispatch(setPostDetail(response.data.post))
+  console.log(response.data)
   dispatch(push(routes.postId))
   
   } catch(e) {
-    window.alert(e.response.data.message)
+    console.log(e)
+    /* window.alert(e.response.data.message) */
     dispatch(push(routes.root))
   }
 }
+
 
 export const postVote = (idPost, directionOfVote) => async (dispatch) => {
   const token = window.localStorage.getItem('token')
@@ -81,5 +84,38 @@ export const postVote = (idPost, directionOfVote) => async (dispatch) => {
     dispatch(getAllPosts())
   } catch {
     window.alert("Não foi possível registrar seu voto.")
+  }
+}
+
+export const postVoteComment = (idPost, idComment, directionOfVote) => async (dispatch) => {
+  const token = window.localStorage.getItem('token')
+  const requestHeader = {
+    headers: {
+      auth: token,
+    }
+  }
+  const requestBody = {
+    direction: directionOfVote
+  }
+  try {
+    await axios.put(`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${idPost}/comment/${idComment}/vote`, requestBody, requestHeader)
+    dispatch(getPostDetail(idPost))
+  } catch {
+    window.alert("Não foi possível registrar seu voto.")
+  }
+}
+
+export const createComment = (idPost, textComment) => async (dispatch) => {
+  const token = window.localStorage.getItem('token')
+  const requestHeader = {
+    headers: {
+      auth: token,
+    }
+  }
+  
+  try{ await axios.post(`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${idPost}/comment`,textComment,requestHeader)
+  dispatch(getPostDetail(idPost))
+  } catch(e) {
+    window.alert(e)
   }
 }
