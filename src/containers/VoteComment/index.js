@@ -3,7 +3,8 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { postVote } from '../../actions/posts'
+import { postVoteComment } from '../../actions/posts'
+
 
 const VoteContainer = styled.div`
   display: flex;
@@ -35,26 +36,26 @@ const StyledArrowUpward = styled(ArrowUpward)`
   }};
 `;
 
-class VoteComponent extends React.Component {
+class VoteComment extends React.Component {
 
-  toVoteDown(id, direction) {
+  toVoteDown(idPost,idComment,direction) {
     console.log("teste1")
     if (direction === -1) { 
       console.log("true1")
-      this.props.voteInPost(id, 0)
+      this.props.voteInPost(idPost,idComment, 0)
     } else {
-      this.props.voteInPost(id, -1)
+      this.props.voteInPost(idPost,idComment, -1)
       console.log("false1")
     }
   }
 
-  toVoteUp(id,direction) {
+  toVoteUp(idPost, idComment, direction) {
     console.log("teste1")
     if (direction === 1) { 
-      this.props.voteInPost(id, 0)
+      this.props.voteInPost(idPost,idComment, 0)
       console.log("true1")
     } else {
-      this.props.voteInPost(id, 1)
+      this.props.voteInPost(idPost,idComment, 1)
       console.log("false1")
     }
   }
@@ -64,12 +65,12 @@ class VoteComponent extends React.Component {
       <VoteContainer>
         <StyledArrowDownward
           voteColor={this.props.voteDirection}
-          onClick={() => this.toVoteDown(this.props.id, this.props.voteDirection)}
+          onClick={() => this.toVoteDown(this.props.idPost,this.props.idComment, this.props.voteDirection)}
         />
         <VotesNumber>{this.props.votes}</VotesNumber>
         <StyledArrowUpward
           voteColor={this.props.voteDirection}
-          onClick={() => this.toVoteUp(this.props.id, this.props.voteDirection)}
+          onClick={() => this.toVoteUp(this.props.idPost,this.props.idComment, this.props.voteDirection)}
         />
       </VoteContainer>
     )
@@ -78,8 +79,8 @@ class VoteComponent extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    voteInPost: (id, direction) => dispatch(postVote(id, direction))
+    voteInPost: (idPost,idComment, direction) => dispatch(postVoteComment(idPost,idComment, direction))
   }
 }
 
-export default connect(null, mapDispatchToProps)(VoteComponent);
+export default connect(null, mapDispatchToProps)(VoteComment);

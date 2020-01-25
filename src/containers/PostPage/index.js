@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import CommentCard from "./../CommentCard"
+import createComment from './../../actions/posts'
 
 const PostWrapper = styled.form`
   width: 100%;
@@ -42,7 +43,7 @@ class PostPage extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.postDetail)
+    console.log("teste",this.props.postDetail)
   }
 
   handleFieldChange = e => {
@@ -55,10 +56,12 @@ class PostPage extends Component {
     if (this.state.commentText !== '' ) {
       const comment = {
         text: this.state.commentText,
+
       }
-      // colocar dispatch aqui
+      this.props.getComment()
       this.setState({ postText: '', title: '' })
     }
+
   };
 
   render() {
@@ -84,9 +87,9 @@ class PostPage extends Component {
                 <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
               </CreatePostContainer>   
             </PostContainer>
-            <PostContainer>
-                {this.props.postDetail.comments && this.props.postDetail.comments.map( comment => (
-                  <CommentCard key={comment.id} commentData={comment} />
+           <PostContainer>
+                { this.props.postDetail.comments &&  this.props.postDetail.comments.map( comments => (
+                  <CommentCard  key={comments.id}  postId={this.props.postDetail.id} commentData={comments} />
                 ))} 
             </PostContainer> 
           </PostWrapper>
@@ -110,5 +113,11 @@ function mapStateToProps(state) {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    getComment: (postId, commentText) => dispatch(createComment(postId, commentText))
+  }
+} 
+
 export default connect(
-  mapStateToProps)(PostPage);
+  mapStateToProps, mapDispatchToProps)(PostPage);
