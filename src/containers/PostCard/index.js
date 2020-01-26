@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
-import styled, { ThemeConsumer } from 'styled-components';
+import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {getPostDetail} from './../../actions/posts'
 import { connect } from "react-redux";
-import VoteComponent from '../VoteComponent';
+import VotePost from '../VotePost';
 
 const StyledCard = styled(Card)`
   margin-bottom: 15px;
@@ -21,7 +20,6 @@ const StyledCardActions = styled(CardActions)`
 `;
 
 class PostCard extends PureComponent {
-
   render(){
     return (
       <StyledCard>
@@ -39,28 +37,24 @@ class PostCard extends PureComponent {
           </CardContent>
         </CardActionArea>
         <StyledCardActions>
-          <VoteComponent
+          <VotePost
             votes={this.props.postData.votesCount}
             voteDirection={this.props.postData.userVoteDirection}
             id={this.props.postData.id}
           />
-          {/* <Button size="small" color="primary">
-            {this.props.postData.votesCount}
-          </Button> */}
-          <Button size="small" color="primary">
-            {this.props.postData.commentsNumber}
+          <Button size="small" color="primary" onClick={() => {this.props.goToPost(this.props.postData.id)}}>
+            {this.props.postData.commentsNumber} comentários
           </Button>
         </StyledCardActions>
       </StyledCard>
-      )
+    )
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return{
+  return {
     goToPost: (idPost) => dispatch(getPostDetail(idPost))
   }
 } 
 
-export default connect(null,
-  mapDispatchToProps)(PostCard);
+export default connect(null, mapDispatchToProps)(PostCard);

@@ -6,7 +6,9 @@ import Button from "@material-ui/core/Button";
 import {routes} from "../Router/index";
 import PostCard from   '../PostCard';
 import TextField from '@material-ui/core/TextField';
-import { getAllPosts, createNewPost } from '../../actions/posts'
+import { getAllPosts, createNewPost } from '../../actions/posts';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Header from '../Header';
 
 const FeedWrapper = styled.div`
   width: 100%;
@@ -34,6 +36,12 @@ const PostContainer = styled.div`
   width:500px;
 `;
 
+const LoadingContainer = styled.div`
+  width: 100%;
+  margin: 100px 0;
+  text-align: center;
+`;
+
 class FeedPage extends Component {
   constructor(props) {
     super(props)
@@ -49,7 +57,6 @@ class FeedPage extends Component {
 
   handleFieldChange = e => {
     const { name, value } = e.target;
-      console.log(name, value)
     this.setState({ [name]: value })
   };
 
@@ -68,45 +75,51 @@ class FeedPage extends Component {
   render() {
     console.log(this.props.listOfPosts.length)
     return (
-      <FeedWrapper>
+      <div>
+        <Header />
+        <FeedWrapper>
           <CreatePostContainer onSubmit={this.handleOnSubmit}>
             <div>
-            <TextField
+              <TextField
                 name="title"
-                 placeholder="Post title"
-                 variant="standard"
-                 fullWidth
-                 value={this.state.title}
-                 onChange={this.handleFieldChange}
+                placeholder="Post title"
+                variant="standard"
+                fullWidth
+                value={this.state.title}
+                onChange={this.handleFieldChange}
               />
               <TextField
                 name="postText"
-                 placeholder="Create Post"
-                 multiline
-                //  style={{height:'80px'}}
-                 rows="5"
-                 variant="standard"
-                 fullWidth
-                 onChange={this.handleFieldChange}
-                 value={this.state.postText}
+                placeholder="Create Post"
+                multiline
+                rows="5"
+                variant="standard"
+                fullWidth
+                onChange={this.handleFieldChange}
+                value={this.state.postText}
               />
-
             </div>
-              <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
+            <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
           </CreatePostContainer>
-           <PostContainer>
-           {this.props.listOfPosts.map( post => (
-               <PostCard key={post.id} postData={post} />
+          <PostContainer>
+            {this.props.loadingStatus ?
+              (<LoadingContainer>
+                <CircularProgress />
+              </LoadingContainer>) :
+              this.props.listOfPosts.map( post => (
+                <PostCard key={post.id} postData={post} />
             ))}
           </PostContainer>
-      </FeedWrapper>
+        </FeedWrapper>
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    listOfPosts: state.posts.postArr
+    listOfPosts: state.posts.postArr,
+    loadingStatus: state.posts.isLoading,
   }
 }
 
@@ -114,10 +127,8 @@ function mapToDispatch(dispatch) {
   return{
     goToPage: () => dispatch(push(routes.signup)),
     getPostList: () => dispatch(getAllPosts()),
-    createPost: (postContent) => dispatch(createNewPost(postContent))
+    createPost: (postContent) => dispatch(createNewPost(postContent)),
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapToDispatch)(FeedPage);
+export default connect(mapStateToProps, mapToDispatch)(FeedPage);

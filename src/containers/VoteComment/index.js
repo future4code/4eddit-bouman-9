@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { postVoteComment } from '../../actions/posts'
 
-
 const VoteContainer = styled.div`
   display: flex;
   align-items: center;
@@ -37,26 +36,19 @@ const StyledArrowUpward = styled(ArrowUpward)`
 `;
 
 class VoteComment extends React.Component {
-
   toVoteDown(idPost,idComment,direction) {
-    console.log("teste1")
     if (direction === -1) { 
-      console.log("true1")
       this.props.voteInPost(idPost,idComment, 0)
     } else {
       this.props.voteInPost(idPost,idComment, -1)
-      console.log("false1")
     }
   }
 
   toVoteUp(idPost, idComment, direction) {
-    console.log("teste1")
     if (direction === 1) { 
       this.props.voteInPost(idPost,idComment, 0)
-      console.log("true1")
     } else {
       this.props.voteInPost(idPost,idComment, 1)
-      console.log("false1")
     }
   }
 
