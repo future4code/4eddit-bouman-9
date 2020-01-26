@@ -5,15 +5,12 @@ import SignupPage from "../SignupPage";
 import FeedPage from "../FeedPage";
 import LoginPage from "../LoginPage";
 import PostPage from "../PostPage";
-import { connect } from "react-redux";
-
-
 
 export const routes = {
   root: "/",
   signup: "/signup",
   feed: "/feed",
-  postId: "/postId/" //como vamos mostrar cada post?
+  postId: "/postId"
 };
 
 function router(props) {
@@ -29,14 +26,4 @@ function router(props) {
   );
 }
 
-  // function mapStateToProps(state) {
-  //   return {
-  //     postId: state.posts.postDetailArr.id
-  //   }
-  // }
-
-  export default router;
-
-// export default connect(
-//   mapStateToProps
-//   )(router);
+export default router;

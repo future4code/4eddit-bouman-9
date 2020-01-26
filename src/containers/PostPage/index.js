@@ -5,9 +5,12 @@ import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
 import CommentCard from "./../CommentCard"
-import createComment from './../../actions/posts'
+import { createComment } from './../../actions/posts'
+import { push } from "connected-react-router";
+import { routes } from '../Router';
+import Header from '../Header';
 
-const PostWrapper = styled.form`
+const PostWrapper = styled.div`
   width: 100%;
   height: 70vh;
   gap: 30px;
@@ -33,17 +36,15 @@ const PostContainer = styled.div`
   width:500px;
 `;
 
-
 class PostPage extends Component {
   constructor(props){
     super(props)
     this.state = {
       commentText:'',
     }
-  }
-
-  componentDidMount() {
-    console.log("teste",this.props.postDetail)
+    if (!this.props.postDetail) {
+      this.props.goToFeedPage()
+    }
   }
 
   handleFieldChange = e => {
@@ -51,29 +52,31 @@ class PostPage extends Component {
     this.setState({ [name]: value })
   };
 
-  handleOnSubmit = event => {
+  handleOnSubmit = (id, event) => {
     event.preventDefault();
     if (this.state.commentText !== '' ) {
       const comment = {
         text: this.state.commentText,
-
       }
-      this.props.getComment()
-      this.setState({ postText: '', title: '' })
+      this.props.getComment(id, comment)
+      this.setState({ commentText: '' })
+    } else {
+      window.alert("Digite seu comentário.")
     }
-
   };
 
   render() {
     let pageToRender 
     if (this.props.postDetail) {
-        pageToRender = (
+      pageToRender = (
+        <div>
+          <Header />
           <PostWrapper>
             <PostContainer>
-                <PostCard  postData={this.props.postDetail} />
+              <PostCard postData={this.props.postDetail} />
             </PostContainer>
             <PostContainer>
-              <CreatePostContainer onSubmit={this.handleOnSubmit}>
+              <CreatePostContainer onSubmit={(e) => this.handleOnSubmit(this.props.postDetail.id, e)}>
                 <TextField
                   name="commentText"
                   placeholder="Create Comment"
@@ -87,20 +90,18 @@ class PostPage extends Component {
                 <Button type="submit" style={{ marginLeft:"20px"}} >Post!</Button>   
               </CreatePostContainer>   
             </PostContainer>
-           <PostContainer>
-                { this.props.postDetail.comments &&  this.props.postDetail.comments.map( comments => (
-                  <CommentCard  key={comments.id}  postId={this.props.postDetail.id} commentData={comments} />
-                ))} 
+            <PostContainer>
+              { this.props.postDetail.comments && this.props.postDetail.comments.map( comments => (
+                <CommentCard key={comments.id} postId={this.props.postDetail.id} commentData={comments} />
+              ))} 
             </PostContainer> 
           </PostWrapper>
-        )
-    } else {
-      pageToRender = (
-        <PostWrapper>
-          oi
-        </PostWrapper>
+        </div>
       )
+    } else {
+      pageToRender = null
     }
+    
     return(
       pageToRender
     );
@@ -115,9 +116,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getComment: (postId, commentText) => dispatch(createComment(postId, commentText))
+    getComment: (postId, commentText) => dispatch(createComment(postId, commentText)),
+    goToFeedPage: () => dispatch(push(routes.feed))
   }
 } 
 
-export default connect(
-  mapStateToProps, mapDispatchToProps)(PostPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

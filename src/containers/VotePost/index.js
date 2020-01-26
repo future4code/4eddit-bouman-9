@@ -35,27 +35,20 @@ const StyledArrowUpward = styled(ArrowUpward)`
   }};
 `;
 
-class VoteComponent extends React.Component {
-
+class VotePost extends React.Component {
   toVoteDown(id, direction) {
-    console.log("teste1")
     if (direction === -1) { 
-      console.log("true1")
       this.props.voteInPost(id, 0)
     } else {
       this.props.voteInPost(id, -1)
-      console.log("false1")
     }
   }
 
   toVoteUp(id,direction) {
-    console.log("teste1")
     if (direction === 1) { 
       this.props.voteInPost(id, 0)
-      console.log("true1")
     } else {
       this.props.voteInPost(id, 1)
-      console.log("false1")
     }
   }
 
@@ -82,4 +75,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(VoteComponent);
+export default connect(null, mapDispatchToProps)(VotePost);
