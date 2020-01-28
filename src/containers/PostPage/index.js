@@ -107,7 +107,7 @@ class PostPage extends Component {
     );
   }
 }
-
+//
 function mapStateToProps(state) {
   return {
     postDetail: state.posts.postDetailArr
